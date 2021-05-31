@@ -20,6 +20,37 @@ RSFlowLayoutTest >> testLinesEven [
 		equals: (layout gapSize* n)+(shapes first height * (n - 0.5))
 ]
 
+{ #category : #'as yet unclassified' }
+RSFlowLayoutTest >> testLinesEven_amp [
+	"I test correctness of: 
+
+- `^ alignment = #bottom` in method: `RSFlowLayout >> #isAlignBottom`
+
+- `^ alignment = #label` in method: `RSFlowLayout >> #isAlignLabel`
+
+- `^ alignment = #middle` in method: `RSFlowLayout >> #isAlignMiddle`
+
+- `^ alignment = #top` in method: `RSFlowLayout >> #isAlignTop`
+
+"
+
+	<smallAmpCoveres: 'ReplaceEqualWithNotEqualOperator#RSFlowLayout#isAlignTop#15#30'>
+	<smallAmpCoveres: 'ReplaceEqualWithNotEqualOperator#RSFlowLayout#isAlignMiddle#18#36'>
+	<smallAmpCoveres: 'ReplaceEqualWithNotEqualOperator#RSFlowLayout#isAlignBottom#18#36'>
+	<smallAmpCoveres: 'ReplaceEqualWithNotEqualOperator#RSFlowLayout#isAlignLabel#17#34'>
+	<madeBySmallAmp>
+	| layout lines line n |
+	layout := RSFlowLayout new.
+	self
+		deny: layout isAlignBottom;
+		deny: layout isAlignLabel;
+		deny: layout isAlignMiddle;
+		assert: layout isAlignTop.
+	lines := layout
+		maxWidth: 20;
+		linesFor: shapes
+]
+
 { #category : #tests }
 RSFlowLayoutTest >> testLinesOdd [
 	| layout lines line n |

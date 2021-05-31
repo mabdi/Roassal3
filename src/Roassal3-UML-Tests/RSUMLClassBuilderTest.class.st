@@ -19,6 +19,25 @@ RSUMLClassBuilderTest >> testBasic [
 	self assert: builder shapes size equals: classes size
 ]
 
+{ #category : #'as yet unclassified' }
+RSUMLClassBuilderTest >> testBasic_amp [
+	"I test correctness of: 
+
+- `^ classes` in method: `RSUMLClassBuilder >> #classes` when {#classes->nil}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSUMLClassBuilder#classes#10#18'>
+	<madeBySmallAmp>
+	| builder classes |
+	classes := RSAttachPoint withAllSubclasses.
+	builder := self classToTest new.
+	self assert: builder classes isNil.
+	builder
+		classes: classes;
+		build
+]
+
 { #category : #tests }
 RSUMLClassBuilderTest >> testJustClassName [
 	| builder shape  |
