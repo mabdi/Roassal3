@@ -56,6 +56,42 @@ RSClusteringLayoutTest >> testBasic2 [
 	self assert: clusters size equals: 10.
 ]
 
+{ #category : #'as yet unclassified' }
+RSClusteringLayoutTest >> testBasic2_amp [
+	"I test correctness of: 
+
+- `^ forEachLayout` in method: `RSClusteringLayout >> #forEachLayout`
+
+- `^ clustersLayout` in method: `RSClusteringLayout >> #clustersLayout`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSClusteringLayout#forEachLayout#17#31'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSClusteringLayout#clustersLayout#18#33'>
+	<madeBySmallAmp>
+	| shapes c lb nodes clusters aRSClusteringLayout |
+	c := RSCanvas new.
+	shapes := RSBox models: (10 to: 50).
+	c addAll: shapes.
+	RSFlowLayout on: shapes.
+	lb := RSLineBuilder line.
+	lb
+		shapes: shapes;
+		connectFrom: [ :nb | nb // 2 ].
+	nodes := c
+		@ RSCanvasController;
+		nodes.
+	aRSClusteringLayout := RSClusteringLayout new.
+	self
+		assert:
+			aRSClusteringLayout forEachLayout class
+			equals: RSHorizontalLineLayout;
+		assert:
+			aRSClusteringLayout clustersLayout class
+			equals: RSFlowLayout.
+	clusters := aRSClusteringLayout getClusterFor: nodes
+]
+
 { #category : #tests }
 RSClusteringLayoutTest >> testBasic3 [
 

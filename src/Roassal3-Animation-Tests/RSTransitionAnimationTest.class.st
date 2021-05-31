@@ -74,6 +74,59 @@ RSTransitionAnimationTest >> testStepReset [
 	self runAnimation: animation threshold: 500.
 ]
 
+{ #category : #'as yet unclassified' }
+RSTransitionAnimationTest >> testStep_amp [
+	"I test correctness of: 
+
+- `progress > 1` in method: `RSTransitionAnimation >> #progress` when {#progress->0.0}
+
+- `^ scale range last` in method: `RSTransitionAnimation >> #to`
+
+- `^ scale` in method: `RSTransitionAnimation >> #scale` when {#scale->1.0}
+
+- `^ scale range first` in method: `RSTransitionAnimation >> #from`
+
+- `^ easing` in method: `RSTransitionAnimation >> #easing`
+
+- `^ stepAction` in method: `RSTransitionAnimation >> #stepAction`
+
+"
+
+	<smallAmpCoveres:
+		'ReplaceIfTrueWithIfFalseMutantOperator#RSTransitionAnimation#progress#122#183'>
+	<smallAmpCoveres:
+		'ReplaceGreaterWithLessMutantOperator#RSTransitionAnimation#progress#122#133'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransitionAnimation#easing#9#16'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransitionAnimation#stepAction#13#24'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransitionAnimation#to#5#22'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransitionAnimation#from#7#25'>
+	<smallAmpCoveres:
+		'ReplaceIfTrueReceiverWithTrueOperator#RSTransitionAnimation#progress#122#183'>
+	<smallAmpCoveres:
+		'ReplaceMinusWithPlusMutantOperator#RSTransitionAnimation#progress#55#100'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransitionAnimation#scale#8#14'>
+	<madeBySmallAmp>
+	| value aRSTransitionAnimation |
+	value := 0.
+	aRSTransitionAnimation := canvas newAnimation.
+	self
+		assert:
+			aRSTransitionAnimation progress class equals: SmallFloat64;
+		assert:
+			aRSTransitionAnimation to equals: 1;
+		assert:
+			aRSTransitionAnimation scale class equals: NSLinearScale;
+		assert:
+			aRSTransitionAnimation from equals: 0;
+		assert:
+			aRSTransitionAnimation easing class
+			equals: RSLinearInterpolator;
+		assert:
+			aRSTransitionAnimation stepAction class
+			equals: BlockClosure.
+	aRSTransitionAnimation onStepDo: [ :t | value := value + 1 ]
+]
+
 { #category : #tests }
 RSTransitionAnimationTest >> testTransitionAnimationCreation [
 	self 

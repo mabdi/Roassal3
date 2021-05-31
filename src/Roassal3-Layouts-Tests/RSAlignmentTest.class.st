@@ -26,6 +26,52 @@ RSAlignmentTest >> testCenter [
 	"
 ]
 
+{ #category : #'as yet unclassified' }
+RSAlignmentTest >> testCenter_amp [
+	"I test correctness of: 
+
+- `maxS encompassingRectangle bottom <= s encompassingRectangle bottom` in method: `RSAlignment >> #bottomMostShape`
+
+- `maxS encompassingRectangle floatCenter
+	<= s encompassingRectangle floatCenter` in method: `RSAlignment >> #centerMostShape`
+
+"
+
+	<smallAmpCoveres:
+		'ReplaceLessOrEqualWithGreaterMutantOperator#RSAlignment#centerMostShape#111#187'>
+	<smallAmpCoveres:
+		'ReplaceIfTrueIfFalseReceiverWithFalseOperator#RSAlignment#centerMostShape#111#224'>
+	<smallAmpCoveres:
+		'ReplaceLessOrEqualWithLessMutantOperator#RSAlignment#centerMostShape#111#187'>
+	<smallAmpCoveres: 'RemoveInjectIntoOperator#RSAlignment#centerMostShape#60#226'>
+	<smallAmpCoveres:
+		'ReplaceLessOrEqualWithLessMutantOperator#RSAlignment#bottomMostShape#111#177'>
+	<smallAmpCoveres:
+		'ReplaceGreaterOrEqualWithGreaterMutantOperator#RSAlignment#topMostShape#108#168'>
+	<smallAmpCoveres:
+		'ReplaceLessOrEqualWithEqualMutantOperator#RSAlignment#centerMostShape#111#187'>
+	<madeBySmallAmp>
+	| es |
+	es := (1 to: 5) collect: [ :v | RSBox new size: 10 ] as: RSGroup.
+	RSHorizontalLineLayout on: es.
+	align shapes: es.
+	self
+		assert: align bottomMostShape matrix x equals: 85.0;
+		assert: align centerMostShape matrix x equals: 85.0
+]
+
+{ #category : #'as yet unclassified' }
+RSAlignmentTest >> testCenter_amp_A33 [
+	<smallAmpCoveres: 'ReplaceIfFalseReceiverWithFalseOperator#RSAlignment#label#8#40'>
+	<smallAmpCoveres: 'ReplaceIfFalseWithIfTrueMutantOperator#RSAlignment#label#8#40'>
+	<madeBySmallAmp>
+	| es |
+	es := (1 to: 5) collect: [ :v | RSBox new size: 10 ] as: RSGroup.
+	RSHorizontalLineLayout on: es.
+	align shapes: es.
+	self should: [ align label ] raise: MessageNotUnderstood
+]
+
 { #category : #tests }
 RSAlignmentTest >> testFromBottom [
 	| es |
@@ -40,6 +86,33 @@ RSAlignmentTest >> testFromBottom [
 	"	
 	RSView new addAll: es; yourself.
 	"
+]
+
+{ #category : #'as yet unclassified' }
+RSAlignmentTest >> testFromBottom_amp [
+	"I test correctness of: 
+
+- `maxS encompassingRectangle floatCenter
+	<= s encompassingRectangle floatCenter` in method: `RSAlignment >> #centerMostShape`
+
+"
+
+	<smallAmpCoveres:
+		'ReplaceIfTrueIfFalseReceiverWithTrueOperator#RSAlignment#centerMostShape#111#224'>
+	<smallAmpCoveres:
+		'ReplaceLessOrEqualWithTrueOperator#RSAlignment#centerMostShape#111#187'>
+	<madeBySmallAmp>
+	| es |
+	es := (10 to: 100 by: 10)
+		collect: [ :n | 
+			RSBox new
+				size: n;
+				yourself ].
+	align shapes: es.
+	RSHorizontalLineLayout on: es.
+	es second translateBy: 0 @ 150.
+	align bottom.
+	self assert: align centerMostShape matrix x equals: 5.0
 ]
 
 { #category : #tests }
