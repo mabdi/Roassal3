@@ -84,6 +84,20 @@ RSCanvasTest >> testDrawCanvasWithGroup [
 	canvas createMorph drawOnMockCanvas.
 ]
 
+{ #category : #'as yet unclassified' }
+RSCanvasTest >> testDrawCanvas_amp_N3 [
+	<smallAmpCoveres:
+		'ReplaceDivisionWithMultiplicationMutantOperator#RSCanvas#visibleRectangle#78#108'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSCanvas#morph#82#88'>
+	<madeBySmallAmp>
+	canvas
+		addShape:
+			(RSBox new
+				extent: 100 @ 100;
+				yourself).
+	self should: [ canvas addShape: nil ] raise: MessageNotUnderstood
+]
+
 { #category : #running }
 RSCanvasTest >> testDrawFixed [
 	| box |
@@ -177,6 +191,16 @@ RSCanvasTest >> testMultipleOpenOnce [
 		self assert: win2 isDisplayed
 	] ensure: [ win1 delete. win2 delete. ]
 	 
+]
+
+{ #category : #'as yet unclassified' }
+RSCanvasTest >> testMultipleOpenOnce_amp_A75 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSCanvas#inspectorContext#729#824'>
+	<madeBySmallAmp>
+	| c1 c2 win1 win2 |
+	c1 := RSCanvas new.
+	c1 inspectorContext.
+	self should: [ win1 := c1 openOnce ] raise: MessageNotUnderstood
 ]
 
 { #category : #'tests - composite' }
@@ -346,6 +370,20 @@ RSCanvasTest >> testPushFront [
 	
 	c pushBack: blueBox.
 	self assert: c shapes asArray equals: { blueBox . redBox }.
+]
+
+{ #category : #'as yet unclassified' }
+RSCanvasTest >> testPushFront_amp_N2_A252_A84 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSCanvas#currentTime#14#37'>
+	<madeBySmallAmp>
+	| c blueBox redBox aRSBox1 aRSBox2 |
+	RSCanvas new currentTime.
+	aRSBox1 := RSBox new.
+	blueBox := aRSBox1
+		size: 80;
+		color: #blue.
+	aRSBox2 := RSBox new.
+	self should: [ aRSBox2 size: nil ] raise: MessageNotUnderstood
 ]
 
 { #category : #'tests - shapes ordering' }

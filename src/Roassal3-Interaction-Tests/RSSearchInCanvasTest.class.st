@@ -49,6 +49,44 @@ RSSearchInCanvasTest >> testBasic [
 
 ]
 
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testBasic_amp_A14 [
+	"I test correctness of: 
+
+- `^ 'S'` in method: `RSSearchInCanvas >> #keyForSearch`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#keyForSearch#15#19'>
+	<madeBySmallAmp>
+	| aString |
+	aString := search keyForSearch.
+	self assert: aString equals: 'S'.
+	search
+		searchForShapes: '*4*';
+		searchForShapes: '*5*';
+		resetAllHighlightedShapes
+]
+
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testBasic_amp_L3_A120 [
+	"I test correctness of: 
+
+- `^ 'R'` in method: `RSSearchInCanvas >> #keyForReset`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#keyForReset#14#18'>
+	<madeBySmallAmp>
+	| aString |
+	aString := search
+		searchForShapes: '**';
+		searchForShapes: '*5*';
+		resetAllHighlightedShapes;
+		keyForReset.
+	self assert: aString equals: 'R'
+]
+
 { #category : #tests }
 RSSearchInCanvasTest >> testColor [
 	self assert: search numberOfPerformedSearches equals: 0.
@@ -84,6 +122,24 @@ RSSearchInCanvasTest >> testExactMatch [
 	self assert: shapes fourth color ~= Color gray.
 ]
 
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testExactMatch_amp [
+	"I test correctness of: 
+
+- `^ highlightable` in method: `RSSearchInCanvas >> #highlightable`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#searchForShapes:#309#314'>
+	<madeBySmallAmp>
+	search useExactMatch.
+	self assert: search highlightable class equals: RSHighlightable.
+	search
+		searchForShapes: '4';
+		doNotUseExactMatch;
+		searchForShapes: '4'
+]
+
 { #category : #tests }
 RSSearchInCanvasTest >> testFixedShapes [
 
@@ -104,6 +160,29 @@ RSSearchInCanvasTest >> testFixedShapesAndPopup [
 	search searchForShapes: '4'.
 	lbl := search fixedLabels first.
 	lbl announce: RSMouseEnter new.
+]
+
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testFixedShapes_amp_A56 [
+	"I test correctness of: 
+
+- `fixedLabels extent / 2 + (5 @ 5)` in method: `RSSearchInCanvas >> #searchForShapes:`
+
+"
+
+	<smallAmpCoveres:
+		'ReplacePlusWithMinusMutantOperator#RSSearchInCanvas#searchForShapes:#646#677'>
+	<smallAmpCoveres:
+		'ReplaceDivisionWithMultiplicationMutantOperator#RSSearchInCanvas#searchForShapes:#646#667'>
+	<madeBySmallAmp>
+	| aCollection |
+	aCollection := (search searchForShapes: '4') fixedLabels.
+	self
+		assert: (aCollection at: 1) computeEncompassingRectangle top
+		equals: 4.999999999999998.
+	search
+		searchForShapes: '5';
+		resetAllHighlightedShapes
 ]
 
 { #category : #tests }
@@ -178,4 +257,36 @@ RSSearchInCanvasTest >> testWithEdgeAndhighlightable [
 	
 	search searchForShapes: '*10*'.
 	self assert: l color equals: Color black
+]
+
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testWithEdge_amp_A71_A159_A34 [
+	"I test correctness of: 
+
+- `s model notNil and: [ s isNode ]` in method: `RSSearchInCanvas >> #candidateShapes`
+
+"
+
+	<smallAmpCoveres:
+		'ReplaceSelectBlockWithAlwaysTrueBlockOperator#RSSearchInCanvas#candidateShapes#239#301'>
+	<smallAmpCoveres:
+		'ReplaceAndWithEqvMutantOperator#RSSearchInCanvas#candidateShapes#268#299'>
+	<madeBySmallAmp>
+	| l aCollection |
+	l := RSLine new.
+	l
+		attachPoint: RSCenteredAttachPoint new;
+		color: Color black;
+		from: shapes first;
+		to: shapes last.
+	c add: l.
+	aCollection := search
+		searchForShapes: '*5*';
+		candidateShapes.
+	self assert:
+		aCollection size equals: 10.
+	(search
+		searchForShapes: '*1*';
+		searchForShapes: '*10*') resetAllHighlightedShapes.
+	search useExactMatch
 ]

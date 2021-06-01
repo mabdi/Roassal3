@@ -37,6 +37,64 @@ RSLabelTest >> testBuilding2 [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+RSLabelTest >> testBuilding2_amp_A10_L0 [
+	<smallAmpCoveres: 'ReplaceAndArgumentWithTrueOperator#RSLabel#hasText#12#47'>
+	<madeBySmallAmp>
+	| l |
+	l := RSLabel text: '' model: 42.
+	self
+		should: [ l emphasisAdd: TextEmphasis new ]
+		raise: MessageNotUnderstood
+]
+
+{ #category : #'as yet unclassified' }
+RSLabelTest >> testBuilding_amp [
+	"I test correctness of: 
+
+- `^ emphasis` in method: `RSLabel >> #emphasis`
+
+- `^ self is: 2` in method: `RSLabel >> #isItalic`
+
+- `^ fontName` in method: `RSLabel >> #fontName` when {#fontName->'Source Sans Pro'}
+
+- `^ fontSize` in method: `RSLabel >> #fontSize` when {#fontSize->10}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSLabel#emphasis#11#20'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSLabel#fontSize#11#20'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSLabel#fontName#11#20'>
+	<madeBySmallAmp>
+	| l |
+	l := RSLabel text: 'Hello'.
+	self
+		assert: l emphasis class equals: TextEmphasis;
+		deny: l isItalic;
+		assert: l fontName equals: 'Source Sans Pro';
+		assert: l fontSize equals: 10
+]
+
+{ #category : #'as yet unclassified' }
+RSLabelTest >> testBuilding_amp_A22_A42 [
+	"I test correctness of: 
+
+- `emphasis = aTextEmphasis` in method: `RSLabel >> #emphasis:`
+
+"
+
+	<smallAmpCoveres: 'ReplaceIfTrueReceiverWithTrueOperator#RSLabel#emphasis:#172#214'>
+	<smallAmpCoveres: 'ReplaceEqualWithNotEqualOperator#RSLabel#emphasis:#172#195'>
+	<smallAmpCoveres: 'ReplaceIfTrueWithIfFalseMutantOperator#RSLabel#emphasis:#172#214'>
+	<madeBySmallAmp>
+	| l |
+	l := RSLabel text: 'Hello'.
+	l
+		underline;
+		normal.
+	self deny: l isUnderlined
+]
+
 { #category : #tests }
 RSLabelTest >> testCairoCachedMetricProvider [
 	| label provider |
@@ -47,6 +105,30 @@ RSLabelTest >> testCairoCachedMetricProvider [
 	
 	self assert: label extent class equals: Point.
 	self assert: (provider extentsOf: label) class equals: RSTextExtents.
+]
+
+{ #category : #'as yet unclassified' }
+RSLabelTest >> testCairoCachedMetricProvider_amp_A149 [
+	"I test correctness of: 
+
+- `text notNil and: [ text isNotEmpty ]` in method: `RSLabel >> #hasText` when {#text->''}
+
+"
+
+	<smallAmpCoveres:
+		'ReplaceIfTrueIfFalseReceiverWithTrueOperator#RSLabel#privateFontName#20#114'>
+	<smallAmpCoveres:
+		'ReplaceIfTrueIfFalseReceiverWithFalseOperator#RSLabel#privateFontName#20#114'>
+	<madeBySmallAmp>
+	| label provider aRSLabel |
+	label := RSLabel new.
+	label text: ''.
+	self assert: label computeEncompassingRectangle top equals: 0.0.
+	provider := RSCairoCachedMetricsProvider new.
+	aRSLabel := label metricsProvider: provider.
+	self
+		should: [ aRSLabel font: LogicalFont new ]
+		raise: MessageNotUnderstood
 ]
 
 { #category : #tests }
