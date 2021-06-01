@@ -27,6 +27,31 @@ RSMonitorEventsTest >> testBasic [
 	self assert: eventClass isNil.
 ]
 
+{ #category : #'as yet unclassified' }
+RSMonitorEventsTest >> testBasic_amp [
+	"I test correctness of: 
+
+- `^ target` in method: `RSMonitorEvents >> #target` when {#target->nil}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSMonitorEvents#target#9#16'>
+	<madeBySmallAmp>
+	| canvas monitor eventClass timeStamp |
+	canvas := RSCanvas new.
+	monitor := RSMonitorEvents new.
+	self assert: monitor target isNil.
+	monitor target: canvas.
+	eventClass := nil.
+	timeStamp := nil.
+	monitor
+		onNewEventDo: [ :evt | 
+			eventClass := evt class.
+			timeStamp := evt timeStamp ].
+	canvas announce: RSMouseLeftClick new.
+	monitor unRegister
+]
+
 { #category : #tests }
 RSMonitorEventsTest >> testNoTarget [ 
 	| monitor |

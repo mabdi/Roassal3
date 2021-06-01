@@ -46,6 +46,27 @@ RSTransformableTest >> testBasic02 [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+RSTransformableTest >> testBasic02_amp_N4 [
+	"I test correctness of: 
+
+- `^ RSBitmap new
+	form: (self iconNamed: #smallUpdate);
+	scaleBy: 2;
+	when: RSMouseEnter send: #showRotationCursor to: self;
+	when: RSMouseLeave send: #removeCursor to: self;
+	yourself` in method: `RSTransformable >> #rotationShape`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransformable#rotationShape#24#210'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransformable#key#6#22'>
+	<madeBySmallAmp>
+	| s interaction handles |
+	interaction := RSTransformable new.
+	self assert: interaction rotationShape class equals: RSBitmap
+]
+
 { #category : #running }
 RSTransformableTest >> testCornerDirections [
 	| interaction base new |

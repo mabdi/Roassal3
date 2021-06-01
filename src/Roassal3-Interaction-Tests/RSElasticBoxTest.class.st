@@ -54,3 +54,31 @@ RSElasticBoxTest >> testEventsDraggableCanvas [
 	canvas announce: (RSMouseLeftDragStart new position: 0@0).
 	self assert: number equals: 0.
 ]
+
+{ #category : #'as yet unclassified' }
+RSElasticBoxTest >> testEvents_amp [
+	"I test correctness of: 
+
+- `^ shouldUseNegativeBox` in method: `RSElasticBox >> #shouldUseNegativeBox` when {#shouldUseNegativeBox->true}
+
+- `^ selectedShapes` in method: `RSElasticBox >> #selectedShapes` when {#selectedShapes->nil}
+
+- `^ targetShapes` in method: `RSElasticBox >> #targetShapes` when {#targetShapes->#nodes}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSElasticBox#selectedShapes#55#70'>
+	<smallAmpCoveres: 'RemoveCaretOperator#RSElasticBox#targetShapes#127#140'>
+	<madeBySmallAmp>
+	| number elastic |
+	elastic := RSElasticBox new.
+	self
+		assert: elastic shouldUseNegativeBox;
+		assert: elastic selectedShapes isNil;
+		assert: elastic targetShapes equals: #nodes.
+	number := nil.
+	elastic := elastic
+		when: RSSelectionStartEvent do: [ :evt | number := 0 ];
+		when: RSSelectionChangedEvent do: [ :evt | number := number + 1 ];
+		when: RSSelectionEndEvent do: [ :evt | number := number + 10 ]
+]
