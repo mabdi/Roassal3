@@ -32,6 +32,50 @@ RSResizeTest >> testBiggestShape [
 	self assert: resize fixedShape equals: shapes last.
 ]
 
+{ #category : #'as yet unclassified' }
+RSResizeTest >> testBiggestShape_amp_A13 [
+	"I test correctness of: 
+
+- `^ fixedShape extent` in method: `RSResize >> #biggestExtent`
+
+- `highestShape extent y < e extent y
+	ifTrue: [ e ]
+	ifFalse: [ highestShape ]` in method: `RSResize >> #highestShape`
+
+"
+
+	<smallAmpCoveres:
+		'ReplaceIfTrueIfFalseReceiverWithTrueOperator#RSResize#highestShape#77#154'>
+	<madeBySmallAmp>
+	resize useBiggestShape.
+	self assert: resize biggestExtent equals: 4.0 @ 3.0.
+	resize sameHeight.
+	self assert: resize highestShape baseRectangle area equals: 6.0
+]
+
+{ #category : #'as yet unclassified' }
+RSResizeTest >> testBiggestShape_amp_A6 [
+	"I test correctness of: 
+
+- `biggestShape extent < e extent
+	ifTrue: [ e ]
+	ifFalse: [ biggestShape ]` in method: `RSResize >> #biggestShape`
+
+- `widestElement extent x < e extent x
+	ifTrue: [ e ]
+	ifFalse: [ widestElement ]` in method: `RSResize >> #widestShape`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSResize#biggestExtent#39#57'>
+	<madeBySmallAmp>
+	resize sameWidth.
+	self
+		assert: resize biggestShape baseRectangle top equals: -0.5;
+		assert: resize widestShape baseRectangle top equals: -0.5.
+	resize useBiggestShape
+]
+
 { #category : #tests }
 RSResizeTest >> testHighestShape [
 	self assert: resize highestShape equals: shapes last.

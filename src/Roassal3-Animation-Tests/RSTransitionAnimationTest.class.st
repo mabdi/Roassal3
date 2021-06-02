@@ -74,6 +74,58 @@ RSTransitionAnimationTest >> testStepReset [
 	self runAnimation: animation threshold: 500.
 ]
 
+{ #category : #'as yet unclassified' }
+RSTransitionAnimationTest >> testStep_amp [
+	"I test correctness of: 
+
+- `progress > 1` in method: `RSTransitionAnimation >> #progress` when {#progress->0.0}
+
+- `^ scale range last` in method: `RSTransitionAnimation >> #to`
+
+- `^ scale` in method: `RSTransitionAnimation >> #scale` when {#scale->0.99}
+
+- `^ scale range first` in method: `RSTransitionAnimation >> #from`
+
+- `^ easing` in method: `RSTransitionAnimation >> #easing`
+
+- `^ stepAction` in method: `RSTransitionAnimation >> #stepAction`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransitionAnimation#to#5#22'>
+	<madeBySmallAmp>
+	| value aRSTransitionAnimation |
+	value := 0.
+	aRSTransitionAnimation := canvas newAnimation.
+	self
+		assert:
+			aRSTransitionAnimation progress class equals: SmallFloat64;
+		assert:
+			aRSTransitionAnimation to equals: 1;
+		assert:
+			aRSTransitionAnimation scale class equals: NSLinearScale;
+		assert:
+			aRSTransitionAnimation from equals: 0;
+		assert:
+			aRSTransitionAnimation easing class
+			equals: RSLinearInterpolator;
+		assert:
+			aRSTransitionAnimation stepAction class
+			equals: BlockClosure.
+	aRSTransitionAnimation onStepDo: [ :t | value := value + 1 ]
+]
+
+{ #category : #'as yet unclassified' }
+RSTransitionAnimationTest >> testStep_amp_N1 [
+	<smallAmpCoveres:
+		'ReplaceDivisionWithMultiplicationMutantOperator#RSTransitionAnimation#progress#55#118'>
+	<madeBySmallAmp>
+	| value |
+	value := 0.
+	canvas newAnimation onStepDo: [ :t | value := value + nil ].
+	self should: [ canvas playAnimations ] raise: MessageNotUnderstood
+]
+
 { #category : #tests }
 RSTransitionAnimationTest >> testTransitionAnimationCreation [
 	self 

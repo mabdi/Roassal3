@@ -25,6 +25,23 @@ RSBarPlotTest >> test2BarPlots [
 		equals: extent+(vtick configuration tickSize @0).
 ]
 
+{ #category : #'as yet unclassified' }
+RSBarPlotTest >> testEmptyPlot_amp [
+	"I test correctness of: 
+
+- `^ bottom` in method: `RSBarPlot >> #bottom` when {#bottom->nil}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSBarPlot#bottom#9#16'>
+	<madeBySmallAmp>
+	| p aRSBarPlot |
+	aRSBarPlot := self classToTest new.
+	self assert:
+		aRSBarPlot bottom isNil.
+	p := aRSBarPlot x: #(0) y: #(0)
+]
+
 { #category : #tests }
 RSBarPlotTest >> testHorizontalBar [
 	| c p x y |
@@ -62,4 +79,26 @@ RSBarPlotTest >> testVerticalBar [
 		 shape width closeTo: p bars anyOne width ]).
 	
 
+]
+
+{ #category : #'as yet unclassified' }
+RSBarPlotTest >> testVerticalBar_amp_A13 [
+	"I test correctness of: 
+
+- `^ aPoint y` in method: `RSBarPlot >> #modelFor:`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSBarPlot#modelFor:#19#28'>
+	<madeBySmallAmp>
+	| c p x y aRSBarPlot anUndefinedObject |
+	x := 0.0 to: 2 count: 10.
+	y := (x raisedTo: 2) - 2.
+	c := RSChart new.
+	aRSBarPlot := RSBarPlot new.
+	anUndefinedObject := aRSBarPlot
+		x: x y: y;
+		modelFor: Point new.
+	self assert:
+		anUndefinedObject isNil
 ]

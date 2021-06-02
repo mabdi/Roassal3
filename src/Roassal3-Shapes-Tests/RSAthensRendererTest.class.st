@@ -20,3 +20,18 @@ RSAthensRendererTest >> testArcCorner [
 		
 		equals: (-54.9506649278924@ 200.80455223867077) -> (-46.47771241701749@ 215.03446758248086)
 ]
+
+{ #category : #'as yet unclassified' }
+RSAthensRendererTest >> testArcCorner_amp [
+	"I test correctness of: 
+
+- `^ builder` in method: `RSAthensRenderer >> #builder` when {#builder->nil}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSAthensRenderer#builder#10#18'>
+	<madeBySmallAmp>
+	| renderer |
+	renderer := RSAthensRenderer new.
+	self assert: renderer builder isNil
+]

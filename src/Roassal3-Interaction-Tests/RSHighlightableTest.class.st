@@ -41,6 +41,32 @@ RSHighlightableTest >> testSameModel [
 	c nodes first announce: RSMouseEnter
 ]
 
+{ #category : #'as yet unclassified' }
+RSHighlightableTest >> testSameModel_amp_N7 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSHighlightable class#sameModel:#413#595'>
+	<madeBySmallAmp>
+	| values c boxes aRSBox |
+	values := #(1 1 2 2 2 2 3 3 3 4 4 5 5 5 5).
+	c := RSCanvas new.
+	boxes := values
+		collect: [ :vv | 
+			RSBox new
+				size: 10;
+				model: vv ]
+		as: RSGroup.
+	c addAll: boxes.
+	boxes
+		@ RSPopup;
+		@ (RSHighlightable sameModel: nil).
+	RSGridLayout on: boxes.
+	aRSBox := (c
+		@ RSCanvasController;
+		nodes) first.
+	self
+		should: [ aRSBox announce: RSMouseEnter ]
+		raise: MessageNotUnderstood
+]
+
 { #category : #tests }
 RSHighlightableTest >> testWithEdges [
 	| canvas shapes interaction |
