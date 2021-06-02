@@ -36,41 +36,79 @@ RSSearchInCanvasTest >> testBasic [
 	search searchForShapes: '*4*'.
 	self assert: shapes fourth color ~= Color gray.
 	self assert: shapes fifth color = Color gray.
-	
 	search searchForShapes: '*5*'.
 	self assert: shapes fourth color ~= Color gray.
 	self assert: shapes fifth color ~= Color gray.
-	
 	self assert: search numberOfHighlightedShapes equals: 2.
-
 	search resetAllHighlightedShapes.
 	self assert: shapes fourth color equals: Color gray.
-	self assert: shapes fifth color equals: Color gray.
+	self assert: shapes fifth color equals: Color gray
+]
 
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testBasic_amp [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#highlightable#16#30'>
+	<madeBySmallAmp>
+	search searchForShapes: '*4*'.
+	self
+		assert: search class equals: RSSearchInCanvas;
+		assert: search highlightable class equals: RSHighlightable;
+		assert: search highlightable announcer class equals: Announcer;
+		assert: search highlightable announcer subscriptions class
+			equals: SubscriptionRegistry.
+	search
+		searchForShapes: '*5*';
+		resetAllHighlightedShapes
+]
+
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testBasic_amp_A25 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#keyForSearch#15#19'>
+	<madeBySmallAmp>
+	| aString |
+	aString := search
+		searchForShapes: '*4*';
+		keyForSearch.
+	self assert:
+		aString asString equals: 'a SAObservationPrimitive'.
+	search
+		searchForShapes: '*5*';
+		resetAllHighlightedShapes
+]
+
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testBasic_amp_A89_A4 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#searchForShapes:#309#314'>
+	<madeBySmallAmp>
+	search
+		canvas: RSCanvas new;
+		searchForShapes: '*4*'.
+	self
+		assert: search class equals: RSSearchInCanvas;
+		assert: search numberOfPerformedSearches equals: 0.
+	search
+		searchForShapes: '*5*';
+		searchForShapes: '*4*';
+		resetAllHighlightedShapes
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testColor [
 	self assert: search numberOfPerformedSearches equals: 0.
-	
 	search searchForShapes: '4'.
 	self assert: shapes fourth color ~= Color gray.
 	self assert: shapes fifth color = Color gray.
 	self assert: search numberOfPerformedSearches equals: 1.
-	
 	search searchForShapes: '5'.
 	self assert: shapes fourth color ~= Color gray.
 	self assert: shapes fifth color ~= Color gray.
 	self assert: shapes fifth color ~= shapes fourth color.
 	self assert: search numberOfPerformedSearches equals: 2.
-	
 	self assert: search numberOfHighlightedShapes equals: 2.
-
 	search resetAllHighlightedShapes.
 	self assert: shapes fourth color equals: Color gray.
 	self assert: shapes fifth color equals: Color gray.
-	self assert: search numberOfPerformedSearches equals: 0.
-
+	self assert: search numberOfPerformedSearches equals: 0
 ]
 
 { #category : #tests }
@@ -78,43 +116,53 @@ RSSearchInCanvasTest >> testExactMatch [
 	search useExactMatch.
 	search searchForShapes: '4'.
 	self assert: shapes fourth color equals: Color gray.
-	
 	search doNotUseExactMatch.
 	search searchForShapes: '4'.
-	self assert: shapes fourth color ~= Color gray.
+	self assert: shapes fourth color ~= Color gray
+]
+
+{ #category : #'as yet unclassified' }
+RSSearchInCanvasTest >> testExactMatch_amp_A111 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSSearchInCanvas#keyForReset#14#18'>
+	<madeBySmallAmp>
+	| aString |
+	aString := search
+		useExactMatch;
+		searchForShapes: '4';
+		doNotUseExactMatch;
+		searchForShapes: '4';
+		keyForReset.
+	self assert:
+		aString asString equals: 'a SAObservationPrimitive'
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testFixedShapes [
-
 	self assert: c numberOfFixedShapes equals: 3.
 	search searchForShapes: '4'.
 	self assert: c numberOfFixedShapes equals: 4.
 	search searchForShapes: '5'.
 	self assert: c numberOfFixedShapes equals: 5.
-	
 	search resetAllHighlightedShapes.
-	self assert: c numberOfFixedShapes equals: 3.
+	self assert: c numberOfFixedShapes equals: 3
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testFixedShapesAndPopup [
-
 	| lbl |
 	search searchForShapes: '4'.
 	lbl := search fixedLabels first.
-	lbl announce: RSMouseEnter new.
+	lbl announce: RSMouseEnter new
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testIsRegExpValid [
 	self deny: (search isRegExpValid: '').
-	self deny: (search isRegExpValid: nil).
+	self deny: (search isRegExpValid: nil)
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testNoSearch [
-
 	self assert: (c shapes allSatisfy: [ :s | s color = Color gray ])
 ]
 
@@ -127,14 +175,12 @@ RSSearchInCanvasTest >> testNumberOfHighlightedShapes [
 	self assert: search numberOfHighlightedShapes equals: 2.
 	search searchForShapes: '3'.
 	self assert: search numberOfHighlightedShapes equals: 3.
-	
 	search resetAllHighlightedShapes.
-	self assert: search numberOfHighlightedShapes equals: 0.
+	self assert: search numberOfHighlightedShapes equals: 0
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testWithEdge [
-
 	| l |
 	l := RSLine new.
 	l attachPoint: RSCenteredAttachPoint new.
@@ -142,40 +188,31 @@ RSSearchInCanvasTest >> testWithEdge [
 	l from: shapes first.
 	l to: shapes last.
 	c add: l.
-	
 	search searchForShapes: '*5*'.
 	self assert: l color equals: Color black.
-	
 	search searchForShapes: '*1*'.
 	self assert: l color equals: Color black.
-	
 	search searchForShapes: '*10*'.
 	self assert: l color equals: Color black
 ]
 
 { #category : #tests }
 RSSearchInCanvasTest >> testWithEdgeAndhighlightable [
-
 	| l interaction |
-	
 	interaction := RSHighlightable new.
 	interaction highlightBorder: (RSBorder new width: 2).
 	interaction withLines.
 	c shapes @ interaction.
-	
 	l := RSLine new.
 	l attachPoint: RSCenteredAttachPoint new.
 	l color: Color black.
 	l from: shapes first.
 	l to: shapes last.
 	c add: l.
-	
 	search searchForShapes: '*5*'.
 	self assert: l color equals: Color black.
-	
 	search searchForShapes: '*1*'.
 	self assert: l color equals: Color black.
-	
 	search searchForShapes: '*10*'.
 	self assert: l color equals: Color black
 ]

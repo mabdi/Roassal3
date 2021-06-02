@@ -21,40 +21,44 @@ bar';
 ]
 
 { #category : #tests }
-RSPopupTest >> testMultiline [.
+RSPopupTest >> testMultiline [
 	shapes @ RSPopup.
-	self assert: canvas fixedShapes size equals: 0 .
-	
+	self assert: canvas fixedShapes size equals: 0.
 	shapes last announce: RSMouseMove.
 	self assert: canvas numberOfShapes equals: shapes size.
 	self assert: canvas fixedShapes size equals: 1.
-	self assert: canvas fixedShapes first shapes second shapes size equals: 2
+	self
+		assert: canvas fixedShapes first shapes second shapes size
+		equals: 2
 ]
 
 { #category : #tests }
 RSPopupTest >> testNoPopup [
 	shapes first announce: RSMouseEnter.
-	self assert: canvas numberOfShapes equals: shapes size.
+	self assert: canvas numberOfShapes equals: shapes size
 ]
 
 { #category : #tests }
 RSPopupTest >> testPopup [
 	"Test created while debugging https://github.com/ObjectProfile/Roassal3/issues/150"
+
 	| c |
 	c := RSCanvas new.
-	shapes := (1 to: 30) collect: [ :v | RSEllipse new  model: v; size: 10 ] as: RSGroup.
+	shapes := (1 to: 30)
+		collect: [ :v | 
+			RSEllipse new
+				model: v;
+				size: 10 ]
+		as: RSGroup.
 	shapes @ RSPopup.
 	c addAll: shapes.
-
 	RSLineBuilder line
-	    canvas: c;
-	    withBorderAttachPoint;
-	    connectFrom: [ :v | v // 2 ].
-
+		canvas: c;
+		withBorderAttachPoint;
+		connectFrom: [ :v | v // 2 ].
 	RSTreeLayout on: shapes.
-"	c edges pushBack."
+	"	c edges pushBack."
 	c @ RSCanvasController.
-
 	self assert: c numberOfShapes equals: 59.
 	self assert: c fixedShapes size equals: 3.
 	shapes first announce: RSMouseMove.
@@ -62,12 +66,10 @@ RSPopupTest >> testPopup [
 	self assert: c numberOfShapes equals: 59.
 	self assert: c fixedShapes size equals: 4.
 	self assert: c fixedShapes last children last text equals: '1'.
-	
 	shapes first announce: RSMouseLeave.
-	
 	shapes second announce: RSMouseMove.
 	self assert: c fixedShapes size equals: 4.
-	self assert: c fixedShapes last children last text equals: '2'.
+	self assert: c fixedShapes last children last text equals: '2'
 ]
 
 { #category : #tests }
@@ -75,7 +77,7 @@ RSPopupTest >> testPopupOnElementNotAddedToAView [
 	| b |
 	b := RSBox new.
 	b @ RSPopup.
-	b announce: RSMouseEnter.
+	b announce: RSMouseEnter
 	"Should not produce an error"
 ]
 
@@ -83,10 +85,11 @@ RSPopupTest >> testPopupOnElementNotAddedToAView [
 RSPopupTest >> testPopupSimple [
 	| c s |
 	c := RSCanvas new.
-	s := RSEllipse new size: 10; model: 42.
+	s := RSEllipse new
+		size: 10;
+		model: 42.
 	s @ RSPopup.
 	c add: s.
-
 	self assert: c numberOfShapes equals: 1.
 	self assert: c fixedShapes isEmpty.
 	c shapes first announce: RSMouseMove.
@@ -99,21 +102,24 @@ RSPopupTest >> testPopupSimple [
 { #category : #tests }
 RSPopupTest >> testPopupWithoutMouseLeave [
 	"Test created while debugging https://github.com/ObjectProfile/Roassal3/issues/150"
+
 	| c |
 	c := RSCanvas new.
-	shapes := (1 to: 30) collect: [ :v | RSEllipse new  model: v; size: 10 ] as: RSGroup.
+	shapes := (1 to: 30)
+		collect: [ :v | 
+			RSEllipse new
+				model: v;
+				size: 10 ]
+		as: RSGroup.
 	shapes @ RSPopup.
 	c addAll: shapes.
-
 	RSLineBuilder line
-	    canvas: c;
-	    withBorderAttachPoint;
-	    connectFrom: [ :v | v // 2 ].
-
+		canvas: c;
+		withBorderAttachPoint;
+		connectFrom: [ :v | v // 2 ].
 	RSTreeLayout on: shapes.
-"	c edges pushBack."
+	"	c edges pushBack."
 	c @ RSCanvasController.
-
 	self assert: c numberOfShapes equals: 59.
 	self assert: c fixedShapes size equals: 3.
 	shapes first announce: RSMouseMove.
@@ -121,19 +127,18 @@ RSPopupTest >> testPopupWithoutMouseLeave [
 	self assert: c numberOfShapes equals: 59.
 	self assert: c fixedShapes size equals: 4.
 	self assert: c fixedShapes last children last text equals: '1'.
-	
+
 	"Note that we do not announce RSMouseLeave"
 	shapes second announce: RSMouseMove.
 	self assert: c fixedShapes size equals: 4.
-	self assert: c fixedShapes last children last text equals: '2'.
+	self assert: c fixedShapes last children last text equals: '2'
 ]
 
 { #category : #tests }
 RSPopupTest >> testWithPopup [
 	shapes @ RSPopup.
-	self assert: canvas fixedShapes size equals: 0 .
-	
+	self assert: canvas fixedShapes size equals: 0.
 	shapes first announce: RSMouseMove.
 	self assert: canvas numberOfShapes equals: shapes size.
-	self assert: canvas fixedShapes size equals: 1.
+	self assert: canvas fixedShapes size equals: 1
 ]

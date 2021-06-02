@@ -20,101 +20,107 @@ RSTransformableTest >> setUp [
 
 { #category : #running }
 RSTransformableTest >> testBasic [
-	shapes @ RSTransformable.
-	
+	shapes @ RSTransformable
 ]
 
 { #category : #running }
 RSTransformableTest >> testBasic02 [
 	| s interaction handles |
 	interaction := RSTransformable new.
-	shapes @ interaction .
+	shapes @ interaction.
 	s := shapes first.
 	s announce: RSMouseLeftClick new.
 	self assert: canvas shapes size > shapes size.
 	handles := canvas propertyAt: interaction key.
 	self assert: handles notNil.
 	self assert: handles isNotEmpty.
-	
 	canvas announce: RSMouseClick new.
-	
 	self assert: canvas shapes size equals: shapes size.
 	handles := canvas propertyAt: interaction key.
-	self assert: handles isNil.
-	
-	
-	
+	self assert: handles isNil
+]
+
+{ #category : #'as yet unclassified' }
+RSTransformableTest >> testBasic02_amp_D3 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransformable#key#6#22'>
+	<madeBySmallAmp>
+	| s interaction handles |
+	interaction := RSTransformable new.
+	self
+		assert: interaction class equals: RSTransformable;
+		assert: interaction key equals: #RSTransformable
+]
+
+{ #category : #'as yet unclassified' }
+RSTransformableTest >> testBasic02_amp_N4 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSTransformable#rotationShape#24#210'>
+	<madeBySmallAmp>
+	| s interaction handles |
+	interaction := RSTransformable new.
+	self
+		assert: interaction class equals: RSTransformable;
+		assert: interaction key equals: #RSTransformable
 ]
 
 { #category : #running }
 RSTransformableTest >> testCornerDirections [
 	| interaction base new |
 	interaction := RSTransformable new.
-	base := 20@20 corner: 100@100.
-	
-	new := interaction bottomRight: 10@120 rectangle: base.
-	self assert: new equals: 20@20 -> (10@120).
-	
-	new := interaction bottomCenter: 10@120 rectangle: base.
-	self assert: new equals: 20@20 -> (100@120).
-	
-	new := interaction bottomLeft: 0@120 rectangle: base.
-	self assert: new equals: 0@20 -> (100@120).
-	
-	new := interaction topLeft: 0@0 rectangle: base.
-	self assert: new equals: 0@0 -> (100@100).
-	
-	new := interaction topCenter: 50@0 rectangle: base.
-	self assert: new equals: 20@0 -> (100@100).
-	
-	new := interaction topRight: 120@0 rectangle: base.
-	self assert: new equals: 20@0 -> (120@100).
-	
-	new := interaction leftCenter: 0@120 rectangle: base.
-	self assert: new equals: 0@20 -> (100@100).
-	
-	new := interaction rightCenter: 120@120 rectangle: base.
-	self assert: new equals: 20@20 -> (120@100).
+	base := 20 @ 20 corner: 100 @ 100.
+	new := interaction bottomRight: 10 @ 120 rectangle: base.
+	self assert: new equals: 20 @ 20 -> (10 @ 120).
+	new := interaction bottomCenter: 10 @ 120 rectangle: base.
+	self assert: new equals: 20 @ 20 -> (100 @ 120).
+	new := interaction bottomLeft: 0 @ 120 rectangle: base.
+	self assert: new equals: 0 @ 20 -> (100 @ 120).
+	new := interaction topLeft: 0 @ 0 rectangle: base.
+	self assert: new equals: 0 @ 0 -> (100 @ 100).
+	new := interaction topCenter: 50 @ 0 rectangle: base.
+	self assert: new equals: 20 @ 0 -> (100 @ 100).
+	new := interaction topRight: 120 @ 0 rectangle: base.
+	self assert: new equals: 20 @ 0 -> (120 @ 100).
+	new := interaction leftCenter: 0 @ 120 rectangle: base.
+	self assert: new equals: 0 @ 20 -> (100 @ 100).
+	new := interaction rightCenter: 120 @ 120 rectangle: base.
+	self assert: new equals: 20 @ 20 -> (120 @ 100)
 ]
 
 { #category : #running }
 RSTransformableTest >> testDrag [
 	| s interaction |
 	interaction := RSTransformable new.
-	shapes @ interaction .
+	shapes @ interaction.
 	s := shapes first.
 	s announce: RSMouseLeftClick new.
 	self assert: (canvas propertyAt: interaction key) notNil.
 	s announce: RSMouseDragStart new.
 	self assert: (canvas propertyAt: interaction key) isNil.
 	s announce: RSMouseDragEnd new.
-	self assert: (canvas propertyAt: interaction key) notNil.
+	self assert: (canvas propertyAt: interaction key) notNil
 ]
 
 { #category : #running }
 RSTransformableTest >> testDrag2 [
 	| s interaction |
 	interaction := RSTransformable new.
-	shapes @ interaction .
+	shapes @ interaction.
 	s := shapes first.
 	s announce: RSMouseDragStart new.
 	self assert: (canvas propertyAt: interaction key) isNil.
 	s announce: RSMouseDragEnd new.
-	self assert: (canvas propertyAt: interaction key) isNil.
+	self assert: (canvas propertyAt: interaction key) isNil
 ]
 
 { #category : #running }
 RSTransformableTest >> testUpdateShape [
 	| s interaction rect handles |
 	interaction := RSTransformable new.
-	shapes @ interaction .
+	shapes @ interaction.
 	s := shapes first.
 	s announce: RSMouseLeftClick new.
 	rect := s encompassingRectangle.
-	handles := (canvas propertyAt: interaction key).
+	handles := canvas propertyAt: interaction key.
 	self assert: handles first class equals: RSPolygon.
-	handles second 
-		translateTo: 10@10.
-	self deny: rect equals: s encompassingRectangle.
-	
+	handles second translateTo: 10 @ 10.
+	self deny: rect equals: s encompassingRectangle
 ]

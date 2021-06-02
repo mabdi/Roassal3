@@ -13,16 +13,30 @@ RSBarPlotTest >> classToTest [
 RSBarPlotTest >> test2BarPlots [
 	| d1 d2 extent vtick |
 	d1 := #(4 10 5 9).
-	d2 := #(-5 -6 -3 -3 ).
+	d2 := #(-5 -6 -3 -3).
 	extent := chart extent.
 	chart addPlot: (RSBarPlot new y: d1).
 	chart addPlot: (RSBarPlot new y: d2).
 	vtick := RSVerticalTick new withNoLabels.
 	chart addDecoration: vtick.
 	chart build.
-	self 
-		assert: chart canvas encompassingRectangle extent 
-		equals: extent+(vtick configuration tickSize @0).
+	self
+		assert: chart canvas encompassingRectangle extent
+		equals: extent + (vtick configuration tickSize @ 0)
+]
+
+{ #category : #'as yet unclassified' }
+RSBarPlotTest >> testEmptyPlot_amp [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSBarPlot#bottom#9#16'>
+	<madeBySmallAmp>
+	| p aRSBarPlot |
+	aRSBarPlot := self classToTest new.
+	self
+		assert:
+			aRSBarPlot class equals: RSBarPlot;
+		assert:
+			aRSBarPlot bottom isNil.
+	p := aRSBarPlot x: #(0) y: #(0)
 ]
 
 { #category : #tests }
@@ -32,15 +46,14 @@ RSBarPlotTest >> testHorizontalBar [
 	y := (x raisedTo: 2) - 2.
 	c := RSChart new.
 	p := RSHorizontalBarPlot new x: x y: y.
-	
 	self deny: p isVerticalBarPlot.
 	self assert: p isHorizontalBarPlot.
 	c addPlot: p.
 	c build.
-	self assert: (p bars allSatisfy: [ :shape |
-		 shape height closeTo: p bars anyOne height ]).
-	
-
+	self
+		assert:
+			(p bars
+				allSatisfy: [ :shape | shape height closeTo: p bars anyOne height ])
 ]
 
 { #category : #tests }
@@ -50,16 +63,30 @@ RSBarPlotTest >> testVerticalBar [
 	y := (x raisedTo: 2) - 2.
 	c := RSChart new.
 	p := RSBarPlot new x: x y: y.
-	
 	self assert: p isVerticalBarPlot.
 	self deny: p isHorizontalBarPlot.
 	c addPlot: p.
-	c addDecoration: (RSVerticalTick new 
-		numberOfTicks: 10;
-		asFloat).
+	c
+		addDecoration:
+			(RSVerticalTick new
+				numberOfTicks: 10;
+				asFloat).
 	c build.
-	self assert: (p bars allSatisfy: [ :shape |
-		 shape width closeTo: p bars anyOne width ]).
-	
+	self
+		assert:
+			(p bars
+				allSatisfy: [ :shape | shape width closeTo: p bars anyOne width ])
+]
 
+{ #category : #'as yet unclassified' }
+RSBarPlotTest >> testWithOnePlotWithTitle_amp_U1_A12 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSBarPlot#modelFor:#19#28'>
+	<madeBySmallAmp>
+	| p aRSBarPlot anUndefinedObject |
+	aRSBarPlot := self classToTest new.
+	anUndefinedObject := aRSBarPlot
+		x: #(2 2 2) y: #(2 2 2);
+		modelFor: Point new.
+	self assert:
+		anUndefinedObject isNil
 ]
