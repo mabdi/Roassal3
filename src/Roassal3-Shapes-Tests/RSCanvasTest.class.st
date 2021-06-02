@@ -179,6 +179,26 @@ RSCanvasTest >> testMultipleOpenOnce [
 	 
 ]
 
+{ #category : #'as yet unclassified' }
+RSCanvasTest >> testMultipleOpenOnce_amp_A10 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSCanvas#currentTime#14#37'>
+	<madeBySmallAmp>
+	| c1 c2 win1 win2 |
+	canvas currentTime.
+	c1 := RSCanvas new.
+	self should: [ win1 := c1 openOnce ] raise: MessageNotUnderstood
+]
+
+{ #category : #'as yet unclassified' }
+RSCanvasTest >> testMultipleOpenOnce_amp_A61 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSCanvas#timer#8#68'>
+	<madeBySmallAmp>
+	| c1 c2 win1 win2 |
+	c1 := RSCanvas new.
+	c1 timer.
+	self should: [ win1 := c1 openOnce ] raise: MessageNotUnderstood
+]
+
 { #category : #'tests - composite' }
 RSCanvasTest >> testNestedShape [
 

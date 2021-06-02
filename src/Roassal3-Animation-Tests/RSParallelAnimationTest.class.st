@@ -49,6 +49,17 @@ RSParallelAnimationTest >> testParallelAnimationCreation [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+RSParallelAnimationTest >> testParallelAnimationCreation_amp_L0 [
+	<smallAmpCoveres: 'ReplaceDoBlockWithEmptyBlockOperator#RSParallelAnimation#start#22#77'>
+	<madeBySmallAmp>
+	self
+		should: [ self
+				createAnimationWith: [ canvas parallelAnimationFrom: {nil} ]
+				animationClass: RSParallelAnimation ]
+		raise: MessageNotUnderstood
+]
+
 { #category : #tests }
 RSParallelAnimationTest >> testStep [
 	| value animation |

@@ -37,6 +37,31 @@ RSLabelTest >> testBuilding2 [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+RSLabelTest >> testBuilding_amp [
+	"I test correctness of: 
+
+- `^ emphasis` in method: `RSLabel >> #emphasis`
+
+- `^ self is: 2` in method: `RSLabel >> #isItalic`
+
+- `^ fontName` in method: `RSLabel >> #fontName` when {#fontName->'Source Sans Pro'}
+
+- `^ fontSize` in method: `RSLabel >> #fontSize` when {#fontSize->10}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSLabel#fontSize#11#20'>
+	<madeBySmallAmp>
+	| l |
+	l := RSLabel text: 'Hello'.
+	self
+		assert: l emphasis class equals: TextEmphasis;
+		deny: l isItalic;
+		assert: l fontName equals: 'Source Sans Pro';
+		assert: l fontSize equals: 10
+]
+
 { #category : #tests }
 RSLabelTest >> testCairoCachedMetricProvider [
 	| label provider |

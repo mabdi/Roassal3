@@ -40,6 +40,39 @@ RSColoredTreePaletteTest >> testBasic [
 	
 ]
 
+{ #category : #'as yet unclassified' }
+RSColoredTreePaletteTest >> testBasic_amp [
+	"I test correctness of: 
+
+- `^ shapes` in method: `RSColoredTreePalette >> #shapes` when {#shapes->nil}
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSColoredTreePalette#shapes#10#17'>
+	<madeBySmallAmp>
+	| c nodes lb ctp node1 node2 node3 |
+	c := RSCanvas new.
+	nodes := RSBox models: (1 to: 10).
+	c addAll: nodes.
+	nodes @ RSPopup.
+	lb := RSLineBuilder orthoVertical.
+	lb
+		withVerticalAttachPoint;
+		shapes: nodes;
+		connectFrom: [ :nb | nb // 2 ].
+	RSTreeLayout on: nodes.
+	node3 := c
+		@ RSCanvasController;
+		shapeFromModel: 1;
+		shapeFromModel: 2;
+		shapeFromModel: 3.
+	ctp := RSColoredTreePalette new.
+	self assert: ctp shapes isNil.
+	ctp
+		shapes: c nodes;
+		assignColor
+]
+
 { #category : #tests }
 RSColoredTreePaletteTest >> testLeaves [
 

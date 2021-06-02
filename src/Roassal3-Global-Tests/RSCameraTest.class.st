@@ -14,6 +14,26 @@ RSCameraTest >> testPosition [
 	self assert: c camera position equals: 25 @ 15
 ]
 
+{ #category : #'as yet unclassified' }
+RSCameraTest >> testPosition_amp [
+	"I test correctness of: 
+
+- `^ canvas` in method: `RSCamera >> #canvas`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSCamera#canvas#9#16'>
+	<madeBySmallAmp>
+	| c aRSCamera |
+	c := RSCanvas new.
+	aRSCamera := c
+		add: (RSEllipse new size: 30);
+		camera.
+	self assert:
+		aRSCamera canvas class equals: RSCanvas.
+	aRSCamera translateBy: 25 @ 15
+]
+
 { #category : #tests }
 RSCameraTest >> testZoomToFit [
 	| c c2 |

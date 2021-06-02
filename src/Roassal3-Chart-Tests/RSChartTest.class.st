@@ -18,6 +18,41 @@ RSChartTest >> testBasic [
 	build
 ]
 
+{ #category : #'as yet unclassified' }
+RSChartTest >> testBasic_amp [
+	"I test correctness of: 
+
+- `^ decorations` in method: `RSChart >> #decorations`
+
+- `^ colors` in method: `RSChart >> #colors`
+
+- `^ plots size` in method: `RSChart >> #numberOfPlots`
+
+- `^ aDecoration` in method: `RSChart >> #addDecoration:`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#colors#31#38'>
+	<madeBySmallAmp>
+	| x aRSChart aRSHorizontalTick |
+	x := -10.0 to: 20.0 count: 100.
+	aRSChart := RSChart new.
+	self
+		assert:
+			aRSChart decorations class equals: OrderedCollection;
+		assert:
+			aRSChart colors class equals: NSOrdinalScale;
+		assert:
+			aRSChart numberOfPlots equals: 0.
+	aRSHorizontalTick := aRSChart
+		addPlot: (RSScatterPlot new x: x y: (x raisedTo: 3));
+		addPlot: (RSLinePlot new x: x y: (x raisedTo: 2));
+		addDecoration: RSHorizontalTick new.
+	self assert:
+		aRSHorizontalTick class equals: RSHorizontalTick.
+	aRSChart addDecoration: RSVerticalTick new
+]
+
 { #category : #tests }
 RSChartTest >> testMinMaxValue [
 
@@ -45,6 +80,180 @@ RSChartTest >> testMinMaxValue2 [
 	self assert: c maxValueX equals: 9.
 	self assert: c minValueY equals: -15.
 	self assert: c maxValueY equals: -10.
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue2_amp_A127 [
+	"I test correctness of: 
+
+- `^ self yScale: NSScale sqrt` in method: `RSChart >> #ySqrt`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#ySqrt#8#34'>
+	<madeBySmallAmp>
+	| y c x aNSPowScale |
+	y := #(-10 -13 -15).
+	x := #(4 6 9).
+	c := RSChart new.
+	aNSPowScale := c
+		addPlot: (RSLinePlot new x: x y: y);
+		build;
+		ySqrt.
+	self assert:
+		aNSPowScale class equals: NSPowScale
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue2_amp_A127_A59_A3 [
+	"I test correctness of: 
+
+- `^ self xScale: NSScale sqrt` in method: `RSChart >> #xSqrt`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#xSqrt#8#34'>
+	<madeBySmallAmp>
+	| y c x aNSPowScale |
+	y := #(-10 -13 -15).
+	x := #(4 6 9).
+	c := RSChart new.
+	aNSPowScale := c xSqrt.
+	self assert:
+		aNSPowScale class equals: NSPowScale.
+	c addPlot: (RSLinePlot new x: x y: y).
+	self
+		should: [ c renderPlotsIn: RSCanvas new ]
+		raise: MessageNotUnderstood
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue_amp_A147 [
+	"I test correctness of: 
+
+- `plots , decorations do: [ :e | e xScale: aScale ]` in method: `RSChart >> #xScale:`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#xLn#6#30'>
+	<madeBySmallAmp>
+	| y c aNSLnScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSLnScale := c
+		addPlot: (RSLinePlot new y: y);
+		build;
+		xLn.
+	self assert:
+		aNSLnScale class equals: NSLnScale
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue_amp_A209_A33 [
+	"I test correctness of: 
+
+- `^ self yScale: NSScale ln` in method: `RSChart >> #yLn`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#yScale:#68#75'>
+	<madeBySmallAmp>
+	| y c aNSLnScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSLnScale := c yLn.
+	self assert:
+		aNSLnScale class equals: NSLnScale.
+	c
+		addPlot: (RSLinePlot new y: y);
+		build
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue_amp_A209_A33_A192 [
+	"I test correctness of: 
+
+- `^ self xScale: NSScale linear` in method: `RSChart >> #xLinear`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#xLinear#10#38'>
+	<madeBySmallAmp>
+	| y c aNSLinearScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSLinearScale := c
+		yLn;
+		addPlot: (RSLinePlot new y: y);
+		build;
+		xLinear.
+	self assert:
+		aNSLinearScale class equals: NSLinearScale
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue_amp_A209_A33_A47 [
+	"I test correctness of: 
+
+- `^ self yScale: NSScale linear` in method: `RSChart >> #yLinear`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#yLinear#10#38'>
+	<madeBySmallAmp>
+	| y c aNSLinearScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSLinearScale := c
+		yLn;
+		yLinear.
+	self assert:
+		aNSLinearScale class equals: NSLinearScale.
+	c
+		addPlot: (RSLinePlot new y: y);
+		build
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue_amp_A209_A62 [
+	"I test correctness of: 
+
+- `^ self yScale: NSScale symlog` in method: `RSChart >> #yLog`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#yLog#7#35'>
+	<madeBySmallAmp>
+	| y c aNSSymLogScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSSymLogScale := c
+		addPlot: (RSLinePlot new y: y);
+		yLog.
+	self assert:
+		aNSSymLogScale class equals: NSSymLogScale.
+	c build
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMinMaxValue_amp_A35 [
+	"I test correctness of: 
+
+- `^ aScale` in method: `RSChart >> #xScale:`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#xScale:#68#75'>
+	<madeBySmallAmp>
+	| y c aNSSymLogScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSSymLogScale := c xLog.
+	self assert:
+		aNSSymLogScale class equals: NSSymLogScale.
+	c
+		addPlot: (RSLinePlot new y: y);
+		build
 ]
 
 { #category : #tests }
@@ -91,6 +300,51 @@ RSChartTest >> testMustInclude03 [
 	self assert: c maxValueX equals: 9.
 	self assert: c minValueY equals: -15.
 	self assert: c maxValueY equals: -10.
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMustInclude0_amp_A106_A321_A257 [
+	"I test correctness of: 
+
+- `^ colors scale: aRSPlot` in method: `RSChart >> #colorFor:`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#colorFor:#103#125'>
+	<madeBySmallAmp>
+	| y c aColor |
+	y := #(10 13 15).
+	c := RSChart new.
+	aColor := c
+		addPlot: (RSLinePlot new y: y);
+		mustInclude0inY;
+		xLn;
+		build;
+		colorFor: RSLinePlot new.
+	self assert:
+		aColor class equals: Color
+]
+
+{ #category : #'as yet unclassified' }
+RSChartTest >> testMustInclude0_amp_A163 [
+	"I test correctness of: 
+
+- `plots , decorations do: [ :e | e yScale: aScale ]` in method: `RSChart >> #yScale:`
+
+"
+
+	<smallAmpCoveres: 'RemoveCaretOperator#RSChart#yRawLog#64#89'>
+	<madeBySmallAmp>
+	| y c aNSLogScale |
+	y := #(10 13 15).
+	c := RSChart new.
+	aNSLogScale := c
+		addPlot: (RSLinePlot new y: y);
+		mustInclude0inY;
+		build;
+		yRawLog.
+	self assert:
+		aNSLogScale class equals: NSLogScale
 ]
 
 { #category : #tests }
