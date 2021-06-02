@@ -11,7 +11,7 @@ Class {
 RSGroupTest >> testAddShape [
 	| g |
 	g := RSGroup new.
-	g add: RSBox new.
+	g add: RSBox new
 ]
 
 { #category : #tests }
@@ -24,29 +24,33 @@ RSGroupTest >> testAsGroup [
 
 { #category : #tests }
 RSGroupTest >> testCache01 [
-
 	| shapes shape |
-	shapes := (1 to: 5) collect: [:n | RSBox new model: n; yourself ] as: RSGroup.
+	shapes := (1 to: 5)
+		collect: [ :n | 
+			RSBox new
+				model: n;
+				yourself ]
+		as: RSGroup.
 	self assert: shapes class equals: RSGroup.
 	self assert: shapes shapeFromModelCache isEmpty.
-	
 	shape := shapes shapeFromModel: 2.
 	self assert: shape class equals: RSBox.
 	self assert: shape model equals: 2.
-	
-	self deny: shapes shapeFromModelCache isEmpty.
+	self deny: shapes shapeFromModelCache isEmpty
 ]
 
 { #category : #tests }
 RSGroupTest >> testCache02 [
-
 	| shapes s sps |
-	shapes := #(1 1) collect: [:n | RSBox new model: n; yourself] as: RSGroup.
-	
+	shapes := #(1 1)
+		collect: [ :n | 
+			RSBox new
+				model: n;
+				yourself ]
+		as: RSGroup.
 	s := shapes shapeFromModel: 1.
 	self assert: s class equals: RSBox.
 	self assert: s model equals: 1.
-	
 	sps := shapes shapesFromModel: 1.
 	self assert: sps class equals: RSGroup.
 	self assert: sps size equals: 2
@@ -54,26 +58,50 @@ RSGroupTest >> testCache02 [
 
 { #category : #tests }
 RSGroupTest >> testCache03 [
-
 	| shapes shape |
-	shapes := #(1 1) collect: [:n | RSBox new model: n; yourself] as: RSGroup.
-	
+	shapes := #(1 1)
+		collect: [ :n | 
+			RSBox new
+				model: n;
+				yourself ]
+		as: RSGroup.
 	shapes shapesFromModel: 1.
 	shape := shapes shapeFromModel: 1.
 	self assert: shape class equals: RSBox.
-	self assert: shape model equals: 1.
-	
+	self assert: shape model equals: 1
+]
+
+{ #category : #'as yet unclassified' }
+RSGroupTest >> testCache03_amp_T2 [
+	<smallAmpCoveres:
+		'ReplaceSelectBlockWithAlwaysTrueBlockOperator#RSGroup#shapesFromModel:#641#682'>
+	<madeBySmallAmp>
+	| shapes shape |
+	shapes := #(1 2 3) asGroup.
+	self
+		should: [ shapes shapesFromModel: 1 ]
+		raise: MessageNotUnderstood
 ]
 
 { #category : #tests }
 RSGroupTest >> testCache04 [
-
 	| es |
-	es := #(1) collect: [:n | RSBox new model: n; yourself] as: RSGroup.
+	es := #(1)
+		collect: [ :n | 
+			RSBox new
+				model: n;
+				yourself ]
+		as: RSGroup.
 	self assert: (es shapesFromModel: 1) size equals: 1.
-	
-	es addAll: (#(1) collect: [:n | RSBox new model: n; yourself] as: RSGroup). 
-	self assert: (es shapesFromModel: 1) size equals: 2.
+	es
+		addAll:
+			(#(1)
+				collect: [ :n | 
+					RSBox new
+						model: n;
+						yourself ]
+				as: RSGroup).
+	self assert: (es shapesFromModel: 1) size equals: 2
 ]
 
 { #category : #tests }
@@ -82,11 +110,10 @@ RSGroupTest >> testDrawGroup [
 	c := RSCanvas new.
 	g := RSGroup new.
 	g add: RSBox new.
-	com := RSComposite new
-		shapes: g.
+	com := RSComposite new shapes: g.
 	c addShape: com.
 	self assert: c numberOfShapes equals: 1.
-	c createMorph drawOnMockCanvas.
+	c createMorph drawOnMockCanvas
 ]
 
 { #category : #tests }
@@ -96,21 +123,24 @@ RSGroupTest >> testModels [
 	g add: RSBox new.
 	g add: RSBox new.
 	g add: RSBox new.
-
 	self assert: (g allSatisfy: [ :s | s model isNil ]).
 	g models: #('hello' 'world' 'bonjour').
-	
-	self assert: (g collect: [ :s | s model ]) asArray equals: #('hello' 'world' 'bonjour')
-	 
+	self
+		assert: (g collect: [ :s | s model ]) asArray
+		equals: #('hello' 'world' 'bonjour')
 ]
 
 { #category : #tests }
 RSGroupTest >> testShapeFromModel [
 	| group |
-	group := (1 to: 5) collect: [:n | RSBox new model: n; yourself] as: RSGroup.
+	group := (1 to: 5)
+		collect: [ :n | 
+			RSBox new
+				model: n;
+				yourself ]
+		as: RSGroup.
 	self assert: (group shapeFromModel: 1) equals: group first.
-	self assert: (group shapeFromModel: 5) equals: group last.
-
+	self assert: (group shapeFromModel: 5) equals: group last
 ]
 
 { #category : #tests }
@@ -120,9 +150,7 @@ RSGroupTest >> testTranslucent [
 	g add: RSBox new.
 	g add: RSBox new.
 	g add: RSBox new.
-
 	self assert: (g allSatisfy: [ :s | s color alpha = 1 ]).
 	g translucent.
-	self assert: (g allSatisfy: [ :s | s color alpha < 1 ]).
-	 
+	self assert: (g allSatisfy: [ :s | s color alpha < 1 ])
 ]

@@ -14,10 +14,21 @@ RSFlowLayoutTest >> testLinesEven [
 	self assert: lines size equals: n.
 	line := lines last.
 	"all shapes has the same size"
-	
-	self 
-		assert: line first position y 
-		equals: (layout gapSize* n)+(shapes first height * (n - 0.5))
+	self
+		assert: line first position y
+		equals: layout gapSize * n + (shapes first height * (n - 0.5))
+]
+
+{ #category : #'as yet unclassified' }
+RSFlowLayoutTest >> testLinesEven_amp_A2 [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSFlowLayout#isAlignMiddle#16#36'>
+	<madeBySmallAmp>
+	| layout lines line n |
+	layout := RSFlowLayout new.
+	self
+		assert: layout class equals: RSFlowLayout;
+		assert: layout isAlignTop;
+		should: [ layout linesFor: RSGroup new ] raise: CollectionIsEmpty
 ]
 
 { #category : #tests }
@@ -31,8 +42,7 @@ RSFlowLayoutTest >> testLinesOdd [
 	self assert: lines size equals: n.
 	line := lines last.
 	"all shapes has the same size"
-	
-	self 
-		assert: line first position y 
-		equals: (layout gapSize* n)+(shapes first height * (n - 0.5))
+	self
+		assert: line first position y
+		equals: layout gapSize * n + (shapes first height * (n - 0.5))
 ]

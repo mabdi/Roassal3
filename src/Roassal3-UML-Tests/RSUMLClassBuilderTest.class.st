@@ -19,9 +19,24 @@ RSUMLClassBuilderTest >> testBasic [
 	self assert: builder shapes size equals: classes size
 ]
 
+{ #category : #'as yet unclassified' }
+RSUMLClassBuilderTest >> testBasic_amp [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSUMLClassBuilder#classes#10#18'>
+	<madeBySmallAmp>
+	| builder classes |
+	classes := RSAttachPoint withAllSubclasses.
+	builder := self classToTest new.
+	self
+		assert: builder class equals: RSUMLClassBuilder;
+		assert: builder classes isNil.
+	builder
+		classes: classes;
+		build
+]
+
 { #category : #tests }
 RSUMLClassBuilderTest >> testJustClassName [
-	| builder shape  |
+	| builder shape |
 	builder := self classToTest new.
 	builder classes: {RSMouseMove}.
 	builder build.
@@ -29,7 +44,6 @@ RSUMLClassBuilderTest >> testJustClassName [
 	self assert: shape shapes size equals: 2.
 	self assert: shape shapes first class equals: RSBox.
 	self assert: shape shapes second class equals: RSComposite.
-	
 	builder := self classToTest new.
 	builder classes: {RSMouseMove}.
 	builder renderer: RSTorchUMLClassRenderer new.
@@ -38,5 +52,5 @@ RSUMLClassBuilderTest >> testJustClassName [
 	self assert: shape shapes size equals: 3.
 	self assert: shape shapes first class equals: RSBox.
 	self assert: shape shapes second class equals: RSComposite.
-	self assert: shape shapes third class equals: RSBox.
+	self assert: shape shapes third class equals: RSBox
 ]

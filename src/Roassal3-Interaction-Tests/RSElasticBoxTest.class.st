@@ -30,17 +30,17 @@ RSElasticBoxTest >> testEvents [
 	| number elastic |
 	elastic := RSElasticBox new.
 	number := nil.
-	elastic 
+	elastic
 		when: RSSelectionStartEvent do: [ :evt | number := 0 ];
 		when: RSSelectionChangedEvent do: [ :evt | number := number + 1 ];
-		when: RSSelectionEndEvent do: [ :evt | number := number +10 ].
+		when: RSSelectionEndEvent do: [ :evt | number := number + 10 ].
 	canvas @ elastic.
-	canvas announce: (RSMouseRightDragStart new position: 0@0).
+	canvas announce: (RSMouseRightDragStart new position: 0 @ 0).
 	self assert: number equals: 0.
-	canvas announce: (RSMouseDragging new position: 10@10).
+	canvas announce: (RSMouseDragging new position: 10 @ 10).
 	self assert: number equals: 1.
-	canvas announce: (RSMouseDragEnd new position: 0@0).
-	self assert: number equals: 11.
+	canvas announce: (RSMouseDragEnd new position: 0 @ 0).
+	self assert: number equals: 11
 ]
 
 { #category : #tests }
@@ -51,6 +51,22 @@ RSElasticBoxTest >> testEventsDraggableCanvas [
 	canvas @ elastic.
 	number := nil.
 	elastic when: RSSelectionStartEvent do: [ :evt | number := 0 ].
-	canvas announce: (RSMouseLeftDragStart new position: 0@0).
-	self assert: number equals: 0.
+	canvas announce: (RSMouseLeftDragStart new position: 0 @ 0).
+	self assert: number equals: 0
+]
+
+{ #category : #'as yet unclassified' }
+RSElasticBoxTest >> testEvents_amp [
+	<smallAmpCoveres: 'RemoveCaretOperator#RSElasticBox#selectedShapes#55#70'>
+	<madeBySmallAmp>
+	| number elastic |
+	elastic := RSElasticBox new.
+	self
+		assert: elastic class equals: RSElasticBox;
+		assert: elastic targetShapes equals: #nodes.
+	number := nil.
+	elastic := elastic
+		when: RSSelectionStartEvent do: [ :evt | number := 0 ];
+		when: RSSelectionChangedEvent do: [ :evt | number := number + 1 ];
+		when: RSSelectionEndEvent do: [ :evt | number := number + 10 ]
 ]

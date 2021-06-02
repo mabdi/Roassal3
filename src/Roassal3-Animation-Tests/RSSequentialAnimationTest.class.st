@@ -9,9 +9,7 @@ Class {
 
 { #category : #tests }
 RSSequentialAnimationTest >> testAddingAnimations [
-	self 
-		addingInComposite: canvas sequentialAnimation
-		duration: 3 second
+	self addingInComposite: canvas sequentialAnimation duration: 3 second
 ]
 
 { #category : #tests }
@@ -19,33 +17,36 @@ RSSequentialAnimationTest >> testDuration [
 	| animation |
 	animation := RSSequentialAnimation new.
 	self assert: animation duration equals: 0 seconds.
-	
 	animation := RSSequentialAnimation new
 		add: (RSTransitionAnimation new duration: 2 seconds);
 		yourself.
 	self assert: animation duration equals: 2 seconds.
 	self assert: animation allDuration equals: 2 seconds.
-	
 	animation := RSSequentialAnimation new
 		loops: 5;
-		add: (RSTransitionAnimation new duration: 2 seconds; loops: 5);
+		add:
+			(RSTransitionAnimation new
+				duration: 2 seconds;
+				loops: 5);
 		yourself.
 	self assert: animation duration equals: 10 seconds.
 	self assert: animation allDuration equals: 50 seconds.
-	
 	animation := RSSequentialAnimation new
 		repeat;
-		add: (RSTransitionAnimation new duration: 2 seconds;  repeat);
+		add:
+			(RSTransitionAnimation new
+				duration: 2 seconds;
+				repeat);
 		yourself.
 	self assert: animation duration equals: 2 seconds.
-	self assert: animation allDuration equals: 2 seconds.
+	self assert: animation allDuration equals: 2 seconds
 ]
 
 { #category : #tests }
 RSSequentialAnimationTest >> testSequentialAnimationCreation [
-	self 
+	self
 		createAnimationWith: [ canvas animationFrom: {} ]
-		animationClass: RSSequentialAnimation.
+		animationClass: RSSequentialAnimation
 ]
 
 { #category : #tests }
@@ -53,13 +54,12 @@ RSSequentialAnimationTest >> testStep [
 	| value animation |
 	value := 0.
 	animation := RSSequentialAnimation new
-		add: (RSTransitionAnimation new 
-			onStepDo: [ :t| value := value + 1 ]);
+		add: (RSTransitionAnimation new onStepDo: [ :t | value := value + 1 ]);
 		yourself.
 	canvas addAnimation: animation.
 	self assert: value equals: 0.
 	canvas playAnimations.
-	self assert: value equals: 1.
+	self assert: value equals: 1
 ]
 
 { #category : #tests }
@@ -69,10 +69,11 @@ RSSequentialAnimationTest >> testStepEvent [
 	loop := 0.
 	animation := RSSequentialAnimation new
 		loops: 3;
-		add: (RSTransitionAnimation new 
-			duration: 100 milliSeconds;
-			onStepDo: [ :t| value := t ]);
-		when: RSAnimationLoopEvent do: [ :evt | loop := loop + 1.].
+		add:
+			(RSTransitionAnimation new
+				duration: 100 milliSeconds;
+				onStepDo: [ :t | value := t ]);
+		when: RSAnimationLoopEvent do: [ :evt | loop := loop + 1 ].
 	canvas addAnimation: animation.
 	self assert: value isNil.
 	self assert: loop equals: 0.
@@ -81,5 +82,46 @@ RSSequentialAnimationTest >> testStepEvent [
 	self deny: value isNil.
 	self assert: loop equals: 3.
 	self deny: animation endTime isNil.
-	self deny: animation isRunning.
+	self deny: animation isRunning
+]
+
+{ #category : #'as yet unclassified' }
+RSSequentialAnimationTest >> testStepEvent_amp_N1 [
+	<smallAmpCoveres:
+		'ReplaceIfTrueReceiverWithTrueOperator#RSSequentialAnimation#step#142#221'>
+	<madeBySmallAmp>
+	| value loop animation aRSSequentialAnimation |
+	value := nil.
+	loop := 0.
+	aRSSequentialAnimation := RSSequentialAnimation new.
+	animation := aRSSequentialAnimation
+		loops: 3;
+		add: nil;
+		when: RSAnimationLoopEvent do: [ :evt | loop := loop + 1 ].
+	canvas addAnimation: animation.
+	self
+		should: [ self runAnimation: animation threshold: 500 ]
+		raise: Error
+]
+
+{ #category : #'as yet unclassified' }
+RSSequentialAnimationTest >> testStepEvent_amp_O1 [
+	<smallAmpCoveres:
+		'ReplaceIfTrueWithIfFalseMutantOperator#RSSequentialAnimation#step#142#221'>
+	<madeBySmallAmp>
+	| value loop animation aRSSequentialAnimation |
+	value := nil.
+	loop := 100.
+	aRSSequentialAnimation := RSSequentialAnimation new.
+	animation := aRSSequentialAnimation
+		loops: 1;
+		add:
+			(RSTransitionAnimation new
+				duration: 500 milliSeconds;
+				onStepDo: [ :t | value := t ]);
+		when: RSAnimationLoopEvent do: [ :evt | loop := loop + 0 ].
+	canvas addAnimation: animation.
+	self
+		should: [ self runAnimation: animation threshold: 3 ]
+		raise: Error
 ]
